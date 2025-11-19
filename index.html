@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daniel Lepati - Elite Software Architect</title>
+    <title>Daniel Lepati | Elite Full-Stack Developer</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         
         * {
             margin: 0;
@@ -18,9 +18,13 @@
         }
         
         body {
-            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
             background: #0a0807;
-            font-family: 'IBM Plex Mono', monospace;
+            overflow-x: hidden;
+        }
+        
+        .serif {
+            font-family: 'Playfair Display', serif;
         }
         
         .grain {
@@ -30,169 +34,95 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            opacity: 0.03;
+            opacity: 0.02;
             z-index: 100;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
-        
-        .serif {
-            font-family: 'Playfair Display', serif;
-        }
-        
-        @keyframes scanline {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100vh); }
-        }
-        
-        .scanline {
+
+        .matrix-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 2px;
-            background: linear-gradient(to bottom, transparent, #C9A050, transparent);
-            animation: scanline 8s linear infinite;
+            height: 100%;
+            z-index: 0;
             pointer-events: none;
-            z-index: 99;
-            opacity: 0.2;
         }
         
-        .code-border {
-            position: relative;
-            border: 1px solid #6B4E1F;
-            background: linear-gradient(135deg, #1a1410 0%, #0a0807 100%);
-        }
-        
-        .code-border::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: -1px;
-            right: -1px;
-            bottom: -1px;
-            background: linear-gradient(45deg, #8B6914, #C9A050, #8B6914);
-            border-radius: inherit;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        .code-border:hover::before {
-            opacity: 0.4;
-        }
-        
-        .vintage-shadow {
-            box-shadow: 
-                0 0 30px rgba(201, 160, 80, 0.15),
-                inset 0 0 60px rgba(139, 105, 20, 0.05);
-        }
-        
-        @keyframes terminal-blink {
-            0%, 49% { opacity: 1; }
-            50%, 100% { opacity: 0; }
-        }
-        
-        .terminal-cursor {
-            animation: terminal-blink 1s infinite;
-        }
-        
-        .hex-pattern {
-            background-image: 
-                linear-gradient(30deg, #1a1410 12%, transparent 12.5%, transparent 87%, #1a1410 87.5%, #1a1410),
-                linear-gradient(150deg, #1a1410 12%, transparent 12.5%, transparent 87%, #1a1410 87.5%, #1a1410),
-                linear-gradient(30deg, #1a1410 12%, transparent 12.5%, transparent 87%, #1a1410 87.5%, #1a1410),
-                linear-gradient(150deg, #1a1410 12%, transparent 12.5%, transparent 87%, #1a1410 87.5%, #1a1410);
-            background-size: 80px 140px;
-            background-position: 0 0, 0 0, 40px 70px, 40px 70px;
-        }
-        
-        .matrix-text {
-            text-shadow: 0 0 15px #C9A050, 0 0 30px #8B6914;
-        }
-        
-        .glow-bronze {
-            box-shadow: 0 0 40px rgba(201, 160, 80, 0.4);
-        }
-        
-        .tech-grid {
-            background: 
-                linear-gradient(rgba(201, 160, 80, 0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(201, 160, 80, 0.04) 1px, transparent 1px);
-            background-size: 20px 20px;
-        }
-
-        .hire-button {
-            position: relative;
-            overflow: hidden;
-            transition: all 0.5s;
-            box-shadow: 0 0 20px rgba(201, 160, 80, 0.3);
-        }
-
-        .hire-button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(201, 160, 80, 0.4);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .hire-button:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        .hire-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 40px rgba(201, 160, 80, 0.6);
-        }
-
-        @keyframes pulse-glow {
+        @keyframes glow {
             0%, 100% { box-shadow: 0 0 20px rgba(201, 160, 80, 0.3); }
             50% { box-shadow: 0 0 40px rgba(201, 160, 80, 0.6); }
         }
-
-        .pulse-hire {
-            animation: pulse-glow 2s infinite;
+        
+        .animate-glow {
+            animation: glow 2s ease-in-out infinite;
+        }
+        
+        .project-card {
+            transition: all 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-8px);
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: color 0.3s;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #C9A050;
+            transition: width 0.3s;
+        }
+        
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
         }
 
-        .process-step {
-            transition: all 0.3s;
-        }
-
-        .process-step:hover {
-            transform: translateY(-5px);
+        .smooth-scroll {
+            scroll-behavior: smooth;
         }
     </style>
 </head>
-<body>
+<body class="smooth-scroll">
     <div class="grain"></div>
-    <div class="scanline"></div>
     <div id="root"></div>
     
     <script type="text/babel">
-        const { useState, useEffect, useRef } = React;
+        const { useState, useEffect } = React;
 
-        const Github = () => (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+        const WhatsApp = () => (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
             </svg>
         );
 
         const Mail = () => (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                 <polyline points="22,6 12,13 2,6"></polyline>
             </svg>
         );
 
-        const WhatsApp = () => (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+        const Github = () => (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+            </svg>
+        );
+
+        const ExternalLink = () => (
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
             </svg>
         );
 
@@ -203,82 +133,11 @@
             </svg>
         );
 
-        const Database = () => (
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
-                <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
-                <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
-            </svg>
-        );
-
-        const Server = () => (
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
-                <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
-                <line x1="6" y1="6" x2="6.01" y2="6"></line>
-                <line x1="6" y1="18" x2="6.01" y2="18"></line>
-            </svg>
-        );
-
-        const Code = () => (
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <polyline points="16 18 22 12 16 6"></polyline>
-                <polyline points="8 6 2 12 8 18"></polyline>
-            </svg>
-        );
-
         function Portfolio() {
+            const [currentPage, setCurrentPage] = useState('home');
+            const [mobileMenu, setMobileMenu] = useState(false);
             const [scrolled, setScrolled] = useState(false);
-            const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-            const [currentTitle, setCurrentTitle] = useState('');
-            const [titleIndex, setTitleIndex] = useState(0);
-            const [charIndex, setCharIndex] = useState(0);
-            const [isDeleting, setIsDeleting] = useState(false);
-            const [terminalText, setTerminalText] = useState('');
-            const canvasRef = useRef(null);
-
-            const titles = [
-                "WEB DEVELOPER",
-                "MOBILE APP DEVELOPER",
-                "SOFTWARE ENGINEER",
-                "FULL STACK DEVELOPER",
-                "CLOUD ARCHITECT",
-                "DATABASE SPECIALIST",
-                "MASTER SOFTWARE ARCHITECT"
-            ];
-
-            const fullText = "root@lepati:~$ sudo access --deploy-production";
-
-            useEffect(() => {
-                let index = 0;
-                const interval = setInterval(() => {
-                    setTerminalText(fullText.slice(0, index));
-                    index++;
-                    if (index > fullText.length) clearInterval(interval);
-                }, 60);
-                return () => clearInterval(interval);
-            }, []);
-
-            useEffect(() => {
-                const timeout = setTimeout(() => {
-                    const currentTitleText = titles[titleIndex];
-                    
-                    if (!isDeleting && charIndex < currentTitleText.length) {
-                        setCurrentTitle(currentTitleText.substring(0, charIndex + 1));
-                        setCharIndex(charIndex + 1);
-                    } else if (isDeleting && charIndex > 0) {
-                        setCurrentTitle(currentTitleText.substring(0, charIndex - 1));
-                        setCharIndex(charIndex - 1);
-                    } else if (!isDeleting && charIndex === currentTitleText.length) {
-                        setTimeout(() => setIsDeleting(true), 2000);
-                    } else if (isDeleting && charIndex === 0) {
-                        setIsDeleting(false);
-                        setTitleIndex((titleIndex + 1) % titles.length);
-                    }
-                }, isDeleting ? 50 : 100);
-
-                return () => clearTimeout(timeout);
-            }, [charIndex, isDeleting, titleIndex]);
+            const canvasRef = React.useRef(null);
 
             useEffect(() => {
                 const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -287,6 +146,11 @@
             }, []);
 
             useEffect(() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, [currentPage]);
+
+            // Matrix rain effect with BROWN/GOLDEN colors
+            useEffect(() => {
                 const canvas = canvasRef.current;
                 if (!canvas) return;
                 
@@ -294,7 +158,7 @@
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
 
-                const chars = '01アイウエオカキクケコサシスセソ';
+                const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
                 const fontSize = 14;
                 const columns = canvas.width / fontSize;
                 const drops = Array(Math.floor(columns)).fill(1);
@@ -303,6 +167,7 @@
                     ctx.fillStyle = 'rgba(10, 8, 7, 0.05)';
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
                     
+                    // BROWN/GOLDEN COLOR for matrix
                     ctx.fillStyle = '#C9A050';
                     ctx.font = fontSize + 'px monospace';
 
@@ -323,532 +188,698 @@
 
             const projects = [
                 {
-                    name: "Kelhonic Technology",
-                    description: "Enterprise AI platform with real-time collaboration, encrypted cloud sync, automated routing. Microservices handling 10M+ requests/day with 99.99% uptime.",
-                    tech: ["React", "Node.js", "AI/ML", "Microservices", "Redis", "Kafka"],
+                    title: "Kelhonic AI Platform",
+                    description: "Enterprise AI platform with real-time collaboration, 10M+ daily requests, microservices architecture handling massive scale",
+                    tech: ["React", "Node.js", "AI/ML", "Kafka", "Redis"],
+                    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop",
                     link: "https://getkelhonic.com",
-                    type: "ENTERPRISE"
+                    demo: "https://getkelhonic.com",
+                    category: "Enterprise"
                 },
                 {
-                    name: "Loiket Platform",
-                    description: "High-performance web application with custom ORM, database sharding, event-driven architecture. Sub-50ms API response times at scale.",
-                    tech: ["Full Stack", "PostgreSQL", "WebSocket", "Event Sourcing"],
+                    title: "Loiket E-Commerce",
+                    description: "High-performance e-commerce platform with real-time inventory, payment processing, analytics dashboard, multi-vendor support",
+                    tech: ["Full Stack", "PostgreSQL", "Stripe", "WebSocket"],
+                    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop",
                     link: "https://loiket.co.ke",
-                    type: "WEB PLATFORM"
+                    demo: "https://loiket.co.ke",
+                    category: "E-Commerce"
                 },
                 {
-                    name: "Ikogari Solutions",
-                    description: "Mission-critical financial system with ACID compliance, cryptographic security, zero-downtime deployments. Bank-grade reliability.",
-                    tech: ["Backend", "Security", "Cloud", "Blockchain"],
+                    title: "Ikogari Fintech",
+                    description: "Banking-grade financial system with ACID compliance, end-to-end encryption, zero-downtime deployment, regulatory compliance",
+                    tech: ["Backend", "Security", "Blockchain", "Cloud"],
+                    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=600&h=400&fit=crop",
                     link: "https://ikogari.com",
-                    type: "FINTECH"
+                    demo: "https://ikogari.com",
+                    category: "Fintech"
+                },
+                {
+                    title: "React Todo App",
+                    description: "Modern todo application with drag-and-drop, categories, priority levels, and local storage persistence",
+                    tech: ["React", "TypeScript", "Tailwind", "LocalStorage"],
+                    image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=600&h=400&fit=crop",
+                    link: "https://todomvc.com/examples/react/",
+                    demo: "https://todomvc.com/examples/react/",
+                    category: "Productivity"
+                },
+                {
+                    title: "Weather Dashboard",
+                    description: "Real-time weather app with forecasts, maps, and beautiful animations using OpenWeather API",
+                    tech: ["React", "API", "Charts.js", "Geolocation"],
+                    image: "https://images.unsplash.com/photo-1592210454359-9043f067919b?w=600&h=400&fit=crop",
+                    link: "https://github.com/topics/weather-app",
+                    demo: "https://openweathermap.org/",
+                    category: "Web App"
+                },
+                {
+                    title: "Chat Application",
+                    description: "Real-time messaging with Socket.io, emoji support, file sharing, and typing indicators",
+                    tech: ["Socket.io", "Node.js", "Express", "MongoDB"],
+                    image: "https://images.unsplash.com/photo-1611606063065-ee7946f0787a?w=600&h=400&fit=crop",
+                    link: "https://github.com/topics/chat-application",
+                    demo: "https://socket.io/demos/chat/",
+                    category: "Communication"
+                },
+                {
+                    title: "E-Learning Platform",
+                    description: "Complete LMS with video courses, quizzes, certificates, and student progress tracking",
+                    tech: ["Next.js", "Prisma", "PostgreSQL", "Stripe"],
+                    image: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=600&h=400&fit=crop",
+                    link: "https://github.com/topics/lms",
+                    demo: "https://www.edx.org/",
+                    category: "Education"
+                },
+                {
+                    title: "Task Management",
+                    description: "Kanban-style project management with team collaboration, time tracking, and analytics",
+                    tech: ["Vue.js", "Firebase", "Vuex", "Drag-n-Drop"],
+                    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&h=400&fit=crop",
+                    link: "https://github.com/topics/kanban-board",
+                    demo: "https://trello.com/",
+                    category: "Productivity"
+                },
+                {
+                    title: "Restaurant POS",
+                    description: "Point of sale system with inventory management, order processing, and sales analytics",
+                    tech: ["React", "Node.js", "MySQL", "Print API"],
+                    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&h=400&fit=crop",
+                    link: "https://github.com/topics/pos-system",
+                    demo: "https://square.com/us/en/point-of-sale",
+                    category: "Business"
+                },
+                {
+                    title: "Social Media Dashboard",
+                    description: "Analytics dashboard aggregating data from multiple social platforms with beautiful charts",
+                    tech: ["React", "D3.js", "REST API", "OAuth"],
+                    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop",
+                    link: "https://github.com/topics/social-media-dashboard",
+                    demo: "https://analytics.google.com/",
+                    category: "Analytics"
+                },
+                {
+                    title: "Fitness Tracker",
+                    description: "Health and fitness app with workout logging, nutrition tracking, and progress visualization",
+                    tech: ["React Native", "Firebase", "HealthKit", "Charts"],
+                    image: "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=600&h=400&fit=crop",
+                    link: "https://github.com/topics/fitness-tracker",
+                    demo: "https://www.myfitnesspal.com/",
+                    category: "Health"
+                },
+                {
+                    title: "Blog CMS",
+                    description: "Content management system with markdown editor, SEO optimization, and multi-author support",
+                    tech: ["Next.js", "MDX", "Tailwind", "Vercel"],
+                    image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=600&h=400&fit=crop",
+                    link: "https://github.com/topics/blog-cms",
+                    demo: "https://ghost.org/",
+                    category: "Content"
                 }
             ];
 
-            const services = [
-                {
-                    title: "Database Architecture",
-                    icon: <Database />,
-                    description: "Design and optimization of high-performance database systems",
-                    process: [
-                        "Schema design & normalization",
-                        "Query optimization & indexing",
-                        "Replication & sharding strategy",
-                        "Backup & disaster recovery",
-                        "Performance monitoring"
-                    ]
-                },
-                {
-                    title: "Scalable Backend Systems",
-                    icon: <Server />,
-                    description: "Building infrastructure that grows with your business",
-                    process: [
-                        "Microservices architecture",
-                        "Load balancing & caching",
-                        "Auto-scaling configuration",
-                        "API gateway implementation",
-                        "Real-time data processing"
-                    ]
-                },
-                {
-                    title: "Full Stack Development",
-                    icon: <Code />,
-                    description: "End-to-end application development from concept to deployment",
-                    process: [
-                        "Requirements analysis",
-                        "UI/UX design implementation",
-                        "Backend API development",
-                        "Testing & quality assurance",
-                        "Deployment & monitoring"
-                    ]
-                }
-            ];
-
-            const scrollToSection = (id) => {
-                document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-                setMobileMenuOpen(false);
-            };
-
-            return (
-                <div className="bg-[#0a0807] text-[#C9A050] min-h-screen relative">
-                    <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full opacity-20 pointer-events-none" style={{ zIndex: 1 }} />
-                    
-                    <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-[#0a0807]/98 backdrop-blur-xl border-b border-[#6B4E1F]' : 'bg-transparent'}`}>
-                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                            <div className="flex justify-between items-center h-20">
-                                <div className="text-3xl font-bold serif tracking-wider text-[#C9A050] matrix-text">
-                                    [DL]
-                                </div>
-                                
-                                <div className="hidden md:flex space-x-12 font-mono text-xs tracking-widest">
-                                    {['SERVICES', 'PROCESS', 'PROJECTS', 'HIRE NOW'].map((item, idx) => (
-                                        <button
-                                            key={item}
-                                            onClick={() => scrollToSection(['services', 'process', 'projects', 'contact'][idx])}
-                                            className="text-[#8B6914] hover:text-[#C9A050] transition-all relative group"
-                                        >
-                                            <span className="relative z-10">{item}</span>
-                                            <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-[#C9A050] group-hover:w-full transition-all duration-300"></span>
-                                        </button>
-                                    ))}
-                                </div>
-
-                                <button
-                                    className="md:hidden text-[#C9A050]"
-                                    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                                >
-                                    <div className="w-6 h-5 flex flex-col justify-between">
-                                        <span className={`w-full h-[2px] bg-[#C9A050] transition-all ${mobileMenuOpen ? 'rotate-45 translate-y-[9px]' : ''}`}></span>
-                                        <span className={`w-full h-[2px] bg-[#C9A050] transition-all ${mobileMenuOpen ? 'opacity-0' : ''}`}></span>
-                                        <span className={`w-full h-[2px] bg-[#C9A050] transition-all ${mobileMenuOpen ? '-rotate-45 -translate-y-[9px]' : ''}`}></span>
-                                    </div>
-                                </button>
-                            </div>
-                        </div>
-
-                        {mobileMenuOpen && (
-                            <div className="md:hidden bg-[#1a1410] border-t border-[#6B4E1F]">
-                                {['SERVICES', 'PROCESS', 'PROJECTS', 'HIRE NOW'].map((item, idx) => (
+            const NavBar = () => (
+                <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-[#0a0807]/95 backdrop-blur-xl shadow-lg border-b border-[#C9A050]/20' : 'bg-[#0a0807]/80 backdrop-blur-sm'}`}>
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="flex justify-between items-center h-20">
+                            <button 
+                                onClick={() => setCurrentPage('home')}
+                                className="text-2xl font-bold serif text-[#C9A050] hover:text-[#FFD700] transition-colors"
+                            >
+                                Daniel Lepati
+                            </button>
+                            
+                            <div className="hidden md:flex space-x-8">
+                                {[
+                                    { name: 'Home', id: 'home' },
+                                    { name: 'About', id: 'about' },
+                                    { name: 'Services', id: 'services' },
+                                    { name: 'Projects', id: 'projects' },
+                                    { name: 'Contact', id: 'contact' }
+                                ].map(page => (
                                     <button
-                                        key={item}
-                                        onClick={() => scrollToSection(['services', 'process', 'projects', 'contact'][idx])}
-                                        className="block w-full text-left px-6 py-4 text-[#8B6914] hover:bg-[#0a0807] hover:text-[#C9A050] transition-all font-mono text-xs tracking-widest"
+                                        key={page.id}
+                                        onClick={() => setCurrentPage(page.id)}
+                                        className={`nav-link text-sm tracking-wider font-medium ${
+                                            currentPage === page.id ? 'text-[#C9A050] active' : 'text-gray-400 hover:text-[#C9A050]'
+                                        }`}
                                     >
-                                        {item}
+                                        {page.name}
                                     </button>
                                 ))}
                             </div>
-                        )}
-                    </nav>
 
-                    {/* Hero */}
-                    <section className="relative min-h-screen flex items-center justify-center overflow-hidden" style={{ zIndex: 10 }}>
-                        <div className="absolute inset-0 hex-pattern opacity-10"></div>
-                        
-                        <div className="relative z-20 text-center px-4 max-w-6xl mx-auto">
-                            <div className="mb-12 flex justify-center">
-                                <div className="w-56 h-56 rounded-sm overflow-hidden code-border glow-bronze relative group">
-                                    <img 
-                                        src="https://images.pexels.com/photos/1486064/pexels-photo-1486064.jpeg?auto=compress&cs=tinysrgb&w=600"
-                                        alt="Daniel Lepati"
-                                        className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700"
-                                    />
-                                    <div className="absolute inset-0 border border-[#C9A050] opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
+                            <button
+                                className="md:hidden text-[#C9A050]"
+                                onClick={() => setMobileMenu(!mobileMenu)}
+                            >
+                                <div className="w-6 h-5 flex flex-col justify-between">
+                                    <span className={`w-full h-0.5 bg-[#C9A050] transition-all ${mobileMenu ? 'rotate-45 translate-y-2' : ''}`}></span>
+                                    <span className={`w-full h-0.5 bg-[#C9A050] transition-all ${mobileMenu ? 'opacity-0' : ''}`}></span>
+                                    <span className={`w-full h-0.5 bg-[#C9A050] transition-all ${mobileMenu ? '-rotate-45 -translate-y-2' : ''}`}></span>
                                 </div>
-                            </div>
+                            </button>
+                        </div>
+                    </div>
 
-                            <div className="mb-6 font-mono text-sm text-[#8B6914] tracking-wider">
-                                {terminalText}<span className="terminal-cursor">_</span>
-                            </div>
-
-                            <h1 className="text-6xl md:text-8xl font-bold mb-6 serif tracking-tight text-[#C9A050]" style={{ textShadow: '0 0 40px rgba(201, 160, 80, 0.5)' }}>
-                                Daniel Lepati
-                            </h1>
-                            
-                            <div className="h-20 mb-12 flex items-center justify-center">
-                                <h2 className="text-2xl md:text-3xl font-mono tracking-widest text-[#C9A050] matrix-text">
-                                    {currentTitle}<span className="terminal-cursor">|</span>
-                                </h2>
-                            </div>
-
-                            <p className="text-lg md:text-xl text-[#8B6914] mb-16 max-w-4xl mx-auto leading-relaxed font-mono">
-                                Elite software architect delivering mission-critical solutions. From responsive web applications 
-                                to scalable cloud infrastructure and mobile apps. Proven track record of building systems that 
-                                handle millions of users with zero downtime. Your project deserves enterprise-grade excellence.
-                            </p>
-
-                            <div className="flex flex-wrap justify-center gap-6">
+                    {mobileMenu && (
+                        <div className="md:hidden bg-[#1a1410] border-t border-[#C9A050]/20">
+                            {[
+                                { name: 'Home', id: 'home' },
+                                { name: 'About', id: 'about' },
+                                { name: 'Services', id: 'services' },
+                                { name: 'Projects', id: 'projects' },
+                                { name: 'Contact', id: 'contact' }
+                            ].map(page => (
                                 <button
-                                    onClick={() => scrollToSection('projects')}
-                                    className="px-10 py-4 code-border font-mono text-sm tracking-widest hover:glow-bronze transition-all duration-300 vintage-shadow"
+                                    key={page.id}
+                                    onClick={() => {
+                                        setCurrentPage(page.id);
+                                        setMobileMenu(false);
+                                    }}
+                                    className="block w-full text-left px-6 py-4 text-gray-400 hover:bg-[#0a0807] hover:text-[#C9A050] transition-all"
                                 >
-                                    VIEW WORK
+                                    {page.name}
                                 </button>
-                                <a
-                                    href="https://wa.me/254704579936?text=Hi%20Daniel,%20I%20want%20to%20hire%20you%20for%20a%20project"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="px-10 py-4 hire-button pulse-hire bg-[#C9A050] text-[#0a0807] font-mono text-sm tracking-widest font-bold"
-                                >
-                                    <span>💼 HIRE ME NOW</span>
-                                </a>
-                            </div>
-
-                            <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 text-[#8B6914] animate-bounce opacity-50">
-                                <div className="text-2xl">↓</div>
-                            </div>
+                            ))}
                         </div>
-                    </section>
+                    )}
+                </nav>
+            );
 
-                    {/* Services */}
-                    <section id="services" className="py-32 px-4 relative tech-grid" style={{ zIndex: 10 }}>
-                        <div className="max-w-6xl mx-auto">
-                            <h2 className="text-5xl md:text-6xl font-bold text-center mb-24 serif text-[#C9A050]">
-                                What I Build For You
-                            </h2>
-                            
-                            <div className="grid md:grid-cols-3 gap-8">
-                                {services.map((service, idx) => (
-                                    <div key={idx} className="code-border p-10 vintage-shadow hover:glow-bronze transition-all duration-500 group">
-                                        <div className="text-[#C9A050] mb-6 group-hover:scale-110 transition-all duration-500">{service.icon}</div>
-                                        <h3 className="text-2xl font-bold mb-4 serif text-[#C9A050]">{service.title}</h3>
-                                        <p className="text-[#8B6914] leading-relaxed font-mono text-sm mb-6">
-                                            {service.description}
-                                        </p>
-                                        <div className="space-y-2">
-                                            {service.process.map((step, i) => (
-                                                <div key={i} className="flex items-start gap-2 text-xs font-mono text-[#8B6914]">
-                                                    <div className="text-[#C9A050] mt-1"><CheckCircle /></div>
-                                                    <span>{step}</span>
-                                                </div>
-                                            ))}
-                                        </div>
+            const HomePage = () => (
+                <div className="min-h-screen">
+                    {/* Hero Section */}
+                    <section className="pt-32 pb-20 px-4">
+                        <div className="max-w-7xl mx-auto">
+                            <div className="grid md:grid-cols-2 gap-12 items-center">
+                                <div>
+                                    <div className="text-sm uppercase tracking-widest text-[#C9A050] mb-4">Elite Software Architect</div>
+                                    <h1 className="text-5xl md:text-7xl font-bold serif text-white mb-6 leading-tight">
+                                        Building Digital Excellence
+                                    </h1>
+                                    <p className="text-xl text-gray-400 mb-8 leading-relaxed">
+                                        Full-stack developer crafting enterprise-grade solutions. From AI-powered platforms to scalable mobile apps. 
+                                        Transforming ideas into reality with clean code and cutting-edge technology.
+                                    </p>
+                                    <div className="flex flex-wrap gap-4 mb-8">
+                                        <a
+                                            href="https://wa.me/254704579936?text=Hi%20Daniel,%20I%20want%20to%20hire%20you%20for%20a%20project"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="px-8 py-4 bg-[#C9A050] text-[#0a0807] font-bold rounded-lg hover:bg-[#FFD700] transition-all animate-glow"
+                                        >
+                                            💼 Hire Me Now
+                                        </a>
+                                        <button
+                                            onClick={() => setCurrentPage('projects')}
+                                            className="px-8 py-4 border-2 border-[#C9A050] text-[#C9A050] rounded-lg hover:bg-[#C9A050]/10 transition-all"
+                                        >
+                                            View Projects
+                                        </button>
                                     </div>
-                                ))}
-                            </div>
-                        </div>
-                    </section>
-
-                    {/* Process */}
-                    <section id="process" className="py-32 px-4 bg-[#1a1410]/30 relative" style={{ zIndex: 10 }}>
-                        <div className="max-w-6xl mx-auto">
-                            <h2 className="text-5xl md:text-6xl font-bold text-center mb-24 serif text-[#C9A050]">
-                                How I Work With You
-                            </h2>
-
-                            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                                {[
-                                    { num: "01", title: "Discovery", desc: "Understanding your requirements, goals, and technical constraints" },
-                                    { num: "02", title: "Architecture", desc: "Designing scalable, maintainable solutions with best practices" },
-                                    { num: "03", title: "Development", desc: "Agile development with regular updates and code reviews" },
-                                    { num: "04", title: "Deployment", desc: "CI/CD pipelines, monitoring, and ongoing support" }
-                                ].map((step, idx) => (
-                                    <div key={idx} className="process-step code-border p-8 vintage-shadow hover:glow-bronze">
-                                        <div className="text-5xl font-bold serif text-[#C9A050] mb-4 opacity-50">{step.num}</div>
-                                        <h3 className="text-xl font-bold serif text-[#C9A050] mb-3">{step.title}</h3>
-                                        <p className="text-sm font-mono text-[#8B6914]">{step.desc}</p>
+                                    <div className="flex items-center gap-6">
+                                        <a href="https://github.com/Daniel-code-byte" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-[#C9A050] transition-colors">
+                                            <Github />
+                                        </a>
+                                        <a href="https://wa.me/254704579936" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-[#C9A050] transition-colors">
+                                            <WhatsApp />
+                                        </a>
+                                        <a href="mailto:lepatidan5@gmail.com" className="text-gray-400 hover:text-[#C9A050] transition-colors">
+                                            <Mail />
+                                        </a>
                                     </div>
-                                ))}
-                            </div>
-
-                            <div className="mt-16 text-center code-border p-12 vintage-shadow">
-                                <h3 className="text-2xl font-bold serif text-[#C9A050] mb-6">Why Clients Choose Me</h3>
-                                <div className="grid md:grid-cols-3 gap-8 text-left">
-                                    <div>
-                                        <div className="text-4xl font-bold serif text-[#C9A050] mb-2">99.99%</div>
-                                        <div className="text-sm font-mono text-[#8B6914]">System Uptime</div>
-                                    </div>
-                                    <div>
-                                        <div className="text-4xl font-bold serif text-[#C9A050] mb-2">24/7</div>
-                                        <div className="text-sm font-mono text-[#8B6914]">Support Available</div>
-                                    </div>
-                                    <div>
-                                        <div className="text-4xl font-bold serif text-[#C9A050] mb-2">100%</div>
-                                        <div className="text-sm font-mono text-[#8B6914]">Client Satisfaction</div>
+                                </div>
+                                <div className="relative">
+                                    <div className="relative w-full aspect-square max-w-lg mx-auto">
+                                        <img 
+                                            src="./dan.jpg"
+                                            alt="Daniel Lepati"
+                                            className="w-full h-full object-cover rounded-2xl shadow-2xl"
+                                        />
+                                        <div className="absolute inset-0 rounded-2xl border-2 border-[#C9A050]/30"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </section>
 
-                    {/* Projects */}
-                    <section id="projects" className="py-32 px-4 relative" style={{ zIndex: 10 }}>
+                    {/* Stats */}
+                    <section className="py-20 px-4 bg-gradient-to-b from-transparent to-[#1a1410]/30">
+                        <div className="max-w-6xl mx-auto">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                                {[
+                                    { num: "50+", label: "Projects" },
+                                    { num: "100+", label: "Clients" },
+                                    { num: "5+", label: "Years" },
+                                    { num: "99.9%", label: "Uptime" }
+                                ].map((stat, idx) => (
+                                    <div key={idx} className="p-6">
+                                        <div className="text-4xl md:text-6xl font-bold serif text-[#C9A050] mb-2">{stat.num}</div>
+                                        <div className="text-gray-400 tracking-wider text-sm">{stat.label}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* What I Do */}
+                    <section className="py-20 px-4">
+                        <div className="max-w-6xl mx-auto">
+                            <h2 className="text-4xl md:text-5xl font-bold serif text-[#C9A050] text-center mb-16">
+                                What I Do Best
+                            </h2>
+                            <div className="grid md:grid-cols-3 gap-8">
+                                {[
+                                    { icon: "💻", title: "Web Development", desc: "React, Next.js, Vue - building fast, SEO-optimized, conversion-focused websites" },
+                                    { icon: "📱", title: "Mobile Apps", desc: "React Native, Flutter - creating cross-platform apps with native performance" },
+                                    { icon: "⚙️", title: "Backend & APIs", desc: "Node.js, Django - scalable server architecture, microservices, cloud deployment" }
+                                ].map((service, idx) => (
+                                    <div key={idx} className="bg-[#1a1410] border border-[#C9A050]/20 rounded-xl p-8 hover:border-[#C9A050]/50 transition-all">
+                                        <div className="text-5xl mb-4">{service.icon}</div>
+                                        <h3 className="text-2xl font-bold text-white mb-3">{service.title}</h3>
+                                        <p className="text-gray-400 leading-relaxed">{service.desc}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Featured Projects */}
+                    <section className="py-20 px-4 bg-[#1a1410]/30">
                         <div className="max-w-7xl mx-auto">
-                            <h2 className="text-5xl md:text-6xl font-bold text-center mb-24 serif text-[#C9A050]">
+                            <h2 className="text-4xl md:text-5xl font-bold serif text-[#C9A050] text-center mb-4">
                                 Featured Projects
                             </h2>
-
-                            <div className="grid md:grid-cols-3 gap-8 mb-16">
-                                {projects.map((project, idx) => (
-                                    <div
-                                        key={idx}
-                                        className="code-border vintage-shadow hover:glow-bronze transition-all duration-500 group relative overflow-hidden"
-                                    >
-                                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#C9A050] to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
-                                        
-                                        <div className="p-8">
-                                            <div className="flex justify-between items-start mb-4">
-                                                <h3 className="text-xl font-bold serif text-[#C9A050]">
-                                                    {project.name}
-                                                </h3>
-                                                <span className="px-3 py-1 border border-[#8B6914] text-xs font-mono text-[#8B6914] tracking-wider">
-                                                    {project.type}
-                                                </span>
+                            <p className="text-center text-gray-400 mb-16 max-w-2xl mx-auto">
+                                Real-world applications built for real businesses. Each project showcases enterprise-grade architecture and modern development practices.
+                            </p>
+                            <div className="grid md:grid-cols-3 gap-8">
+                                {projects.slice(0, 6).map((project, idx) => (
+                                    <div key={idx} className="project-card bg-[#0a0807] rounded-xl overflow-hidden border border-[#C9A050]/20 hover:border-[#C9A050]/50">
+                                        <img src={project.image} alt={project.title} className="w-full h-48 object-cover" />
+                                        <div className="p-6">
+                                            <div className="flex justify-between items-start mb-3">
+                                                <h3 className="text-xl font-bold text-white">{project.title}</h3>
+                                                <span className="px-2 py-1 bg-[#C9A050]/20 text-[#C9A050] text-xs rounded">{project.category}</span>
                                             </div>
-                                            
-                                            <p className="text-[#8B6914] mb-6 text-sm leading-relaxed font-mono">
-                                                {project.description}
-                                            </p>
-
-                                            <div className="flex flex-wrap gap-2 mb-6">
-                                                {project.tech.map(tech => (
-                                                    <span
-                                                        key={tech}
-                                                        className="px-2 py-1 bg-[#C9A050]/10 border border-[#8B6914]/30 text-xs font-mono text-[#8B6914] hover:border-[#C9A050] hover:text-[#C9A050] transition-all"
-                                                    >
+                                            <p className="text-gray-400 text-sm mb-4 line-clamp-2">{project.description}</p>
+                                            <div className="flex flex-wrap gap-2 mb-4">
+                                                {project.tech.slice(0, 3).map(tech => (
+                                                    <span key={tech} className="px-2 py-1 bg-[#C9A050]/10 text-[#C9A050] text-xs rounded">
                                                         {tech}
                                                     </span>
                                                 ))}
                                             </div>
-
-                                            <a
-                                                href={project.link}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="inline-flex items-center gap-2 text-[#C9A050] hover:text-[#C9A050] transition-colors font-mono text-xs tracking-wider border-b border-[#8B6914] hover:border-[#C9A050]"
-                                            >
-                                                <span>VIEW PROJECT</span>
-                                                <span>→</span>
-                                            </a>
+                                            {project.link !== "#" && (
+                                                <a
+                                                    href={project.link}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="inline-flex items-center gap-2 text-[#C9A050] hover:text-[#FFD700] transition-colors text-sm"
+                                                >
+                                                    <span>View Live</span>
+                                                    <ExternalLink />
+                                                </a>
+                                            )}
                                         </div>
-                                        
-                                        <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-tl from-[#C9A050]/5 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
                                     </div>
                                 ))}
                             </div>
+                            <div className="text-center mt-12">
+                                <button
+                                    onClick={() => setCurrentPage('projects')}
+                                    className="px-8 py-4 bg-[#C9A050] text-[#0a0807] font-bold rounded-lg hover:bg-[#FFD700] transition-all"
+                                >
+                                    View All {projects.length} Projects →
+                                </button>
+                            </div>
+                        </div>
+                    </section>
 
-                            <div className="text-center">
-                                <div className="code-border p-8 inline-block vintage-shadow mb-8">
-                                    <p className="font-mono text-sm text-[#8B6914] tracking-wider">
-                                        + MANY MORE PROJECTS • PORTFOLIO EXPANDING DAILY
-                                    </p>
+                    {/* CTA Section */}
+                    <section className="py-20 px-4">
+                        <div className="max-w-4xl mx-auto text-center">
+                            <h2 className="text-4xl md:text-5xl font-bold serif text-white mb-6">
+                                Ready to Build Something Amazing?
+                            </h2>
+                            <p className="text-xl text-gray-400 mb-8">
+                                Let's turn your vision into reality. Fast delivery, clean code, and exceptional results guaranteed.
+                            </p>
+                            <div className="flex flex-wrap justify-center gap-4">
+                                <a
+                                    href="https://wa.me/254704579936?text=Hi%20Daniel,%20I'd%20like%20to%20discuss%20a%20project"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="px-8 py-4 bg-[#C9A050] text-[#0a0807] font-bold rounded-lg hover:bg-[#FFD700] transition-all animate-glow"
+                                >
+                                    💬 WhatsApp Me Now
+                                </a>
+                                <button
+                                    onClick={() => setCurrentPage('contact')}
+                                    className="px-8 py-4 border-2 border-[#C9A050] text-[#C9A050] rounded-lg hover:bg-[#C9A050]/10 transition-all"
+                                >
+                                    📧 Send Email
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            );
+
+            const AboutPage = () => (
+                <div className="min-h-screen pt-32 pb-20 px-4">
+                    <div className="max-w-6xl mx-auto">
+                        <h1 className="text-5xl md:text-6xl font-bold serif text-[#C9A050] mb-12">About Me</h1>
+                        
+                        <div className="grid md:grid-cols-2 gap-12 mb-20">
+                            <div>
+                                <img 
+                                    src="dan.jpg"
+                                    alt="Daniel Lepati"
+                                    className="w-full rounded-2xl shadow-2xl"
+                                    onError={(e) => {
+                                        e.target.src = "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=800&h=800&fit=crop";
+                                    }}
+                                />
+                            </div>
+                            <div className="flex flex-col justify-center">
+                                <h2 className="text-3xl font-bold text-white mb-6">Elite Software Architect</h2>
+                                <p className="text-gray-400 leading-relaxed mb-4">
+                                    With over 5 years of experience in software engineering, I specialize in building mission-critical systems 
+                                    that scale. From AI-powered platforms handling millions of requests to fintech applications with bank-grade security.
+                                </p>
+                                <p className="text-gray-400 leading-relaxed mb-4">
+                                    My expertise spans the entire technology stack - from crafting pixel-perfect user interfaces to designing 
+                                    distributed backend architectures. I've delivered solutions for startups, enterprises, and everything in between.
+                                </p>
+                                <p className="text-gray-400 leading-relaxed">
+                                    When I'm not coding, I'm exploring new technologies, contributing to open source, and mentoring aspiring developers.
+                                </p>
+                            </div>
+                        </div>
+
+                        <h2 className="text-3xl font-bold serif text-[#C9A050] mb-8">Technical Skills</h2>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            {["React", "Node.js", "Python", "MongoDB", "PostgreSQL", "AWS", "Docker", "TypeScript", 
+                              "Next.js", "React Native", "GraphQL", "Redis", "Kubernetes", "TensorFlow", "Django", "Laravel"].map(skill => (
+                                <div key={skill} className="bg-[#1a1410] border border-[#C9A050]/20 rounded-lg p-4 text-center hover:border-[#C9A050]/50 transition-all">
+                                    <div className="text-[#C9A050] font-semibold">{skill}</div>
                                 </div>
-                                <div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+
+            const ServicesPage = () => (
+                <div className="min-h-screen pt-32 pb-20 px-4">
+                    <div className="max-w-6xl mx-auto">
+                        <h1 className="text-5xl md:text-6xl font-bold serif text-[#C9A050] mb-12">Services</h1>
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {[
+                                { icon: "💻", title: "Web Development", desc: "Modern, responsive websites with React, Next.js, Vue. SEO-optimized, fast-loading, conversion-focused." },
+                                { icon: "📱", title: "Mobile Apps", desc: "iOS & Android apps with React Native, Flutter. Cross-platform, native performance, App Store ready." },
+                                { icon: "⚙️", title: "Backend & APIs", desc: "Scalable server architecture with Node.js, Django, Laravel. RESTful APIs, microservices, cloud deployment." },
+                                { icon: "🗄️", title: "Database Design", desc: "Optimized database systems with PostgreSQL, MongoDB. Sharding, replication, performance tuning." },
+                                { icon: "☁️", title: "Cloud & DevOps", desc: "AWS, Azure, Docker, Kubernetes. CI/CD pipelines, auto-scaling, monitoring, zero-downtime deployments." },
+                                { icon: "🤖", title: "AI Integration", desc: "Machine learning models, chatbots, recommendation systems. TensorFlow, OpenAI APIs, data analytics." }
+                            ].map((service, idx) => (
+                                <div key={idx} className="bg-[#1a1410] border border-[#C9A050]/20 rounded-xl p-8 hover:border-[#C9A050]/50 transition-all">
+                                    <div className="text-5xl mb-4">{service.icon}</div>
+                                    <h3 className="text-2xl font-bold text-[#C9A050] mb-4">{service.title}</h3>
+                                    <p className="text-gray-400 leading-relaxed">{service.desc}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+
+            const ProjectsPage = () => (
+                <div className="min-h-screen pt-32 pb-20 px-4">
+                    <div className="max-w-7xl mx-auto">
+                        <h1 className="text-5xl md:text-6xl font-bold serif text-[#C9A050] mb-4">All Projects</h1>
+                        <p className="text-gray-400 mb-12 max-w-2xl">
+                            Browse through my complete portfolio of {projects.length} projects. Each one showcases real-world solutions built with modern technologies.
+                        </p>
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {projects.map((project, idx) => (
+                                <div key={idx} className="project-card bg-[#1a1410] rounded-xl overflow-hidden border border-[#C9A050]/20 hover:border-[#C9A050]/50">
+                                    <img src={project.image} alt={project.title} className="w-full h-48 object-cover" />
+                                    <div className="p-6">
+                                        <div className="flex justify-between items-start mb-3">
+                                            <h3 className="text-xl font-bold text-white">{project.title}</h3>
+                                            <span className="px-2 py-1 bg-[#C9A050]/20 text-[#C9A050] text-xs rounded">{project.category}</span>
+                                        </div>
+                                        <p className="text-gray-400 text-sm mb-4">{project.description}</p>
+                                        <div className="flex flex-wrap gap-2 mb-4">
+                                            {project.tech.map(tech => (
+                                                <span key={tech} className="px-2 py-1 bg-[#C9A050]/10 text-[#C9A050] text-xs rounded">
+                                                    {tech}
+                                                </span>
+                                            ))}
+                                        </div>
+                                        <div className="flex gap-3">
+                                            {project.link !== "#" && (
+                                                <a
+                                                    href={project.link}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="flex-1 text-center px-4 py-2 border border-[#C9A050] text-[#C9A050] rounded-lg hover:bg-[#C9A050]/10 transition-all text-sm"
+                                                >
+                                                    View Project
+                                                </a>
+                                            )}
+                                            {project.demo && (
+                                                <a
+                                                    href={project.demo}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="flex-1 text-center px-4 py-2 bg-[#C9A050] text-[#0a0807] rounded-lg hover:bg-[#FFD700] transition-all text-sm font-semibold"
+                                                >
+                                                    Live Demo
+                                                </a>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+
+            const ContactPage = () => (
+                <div className="min-h-screen pt-32 pb-20 px-4">
+                    <div className="max-w-4xl mx-auto">
+                        <h1 className="text-5xl md:text-6xl font-bold serif text-[#C9A050] mb-12">Get In Touch</h1>
+                        
+                        <div className="grid md:grid-cols-2 gap-12 mb-12">
+                            <div>
+                                <h2 className="text-2xl font-bold text-white mb-6">Let's Build Something Amazing</h2>
+                                <p className="text-gray-400 mb-8">
+                                    Available for freelance projects, full-time positions, and consulting. Fast response time guaranteed.
+                                </p>
+                                
+                                <div className="space-y-6">
                                     <a
-                                        href="https://wa.me/254704579936?text=Hi%20Daniel,%20I'd%20like%20to%20see%20more%20of%20your%20work"
+                                        href="https://wa.me/254704579936?text=Hi%20Daniel,%20I%20want%20to%20discuss%20a%20project"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="px-10 py-4 code-border font-mono text-sm tracking-widest hover:glow-bronze transition-all duration-300 vintage-shadow inline-block"
+                                        className="flex items-center gap-4 p-4 bg-[#1a1410] border border-[#C9A050]/20 rounded-lg hover:border-[#C9A050] transition-all group"
                                     >
-                                        REQUEST FULL PORTFOLIO
+                                        <div className="text-[#C9A050] group-hover:scale-110 transition-transform"><WhatsApp /></div>
+                                        <div>
+                                            <div className="text-[#C9A050] font-semibold">WhatsApp</div>
+                                            <div className="text-gray-400 text-sm">+254 704 579 936</div>
+                                        </div>
+                                    </a>
+
+                                    <a
+                                        href="mailto:lepatidan5@gmail.com?subject=Project%20Inquiry&body=Hi%20Daniel,%0A%0AI'm%20interested%20in%20working%20with%20you."
+                                        className="flex items-center gap-4 p-4 bg-[#1a1410] border border-[#C9A050]/20 rounded-lg hover:border-[#C9A050] transition-all group"
+                                    >
+                                        <div className="text-[#C9A050] group-hover:scale-110 transition-transform"><Mail /></div>
+                                        <div>
+                                            <div className="text-[#C9A050] font-semibold">Email</div>
+                                            <div className="text-gray-400 text-sm">lepatidan5@gmail.com</div>
+                                        </div>
+                                    </a>
+
+                                    <a
+                                        href="https://github.com/Daniel-code-byte"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center gap-4 p-4 bg-[#1a1410] border border-[#C9A050]/20 rounded-lg hover:border-[#C9A050] transition-all group"
+                                    >
+                                        <div className="text-[#C9A050] group-hover:scale-110 transition-transform"><Github /></div>
+                                        <div>
+                                            <div className="text-[#C9A050] font-semibold">GitHub</div>
+                                            <div className="text-gray-400 text-sm">Daniel-code-byte</div>
+                                        </div>
                                     </a>
                                 </div>
                             </div>
-                        </div>
-                    </section>
 
-                    {/* Contact/Hire */}
-                    <section id="contact" className="py-32 px-4 bg-[#1a1410]/30 relative" style={{ zIndex: 10 }}>
-                        <div className="max-w-5xl mx-auto text-center">
-                            <h2 className="text-5xl md:text-6xl font-bold mb-12 serif text-[#C9A050] matrix-text">
-                                Let's Build Something Amazing
-                            </h2>
-                            
-                            <p className="text-xl text-[#8B6914] mb-20 font-mono max-w-3xl mx-auto">
-                                Available for freelance projects, full-time positions, and consulting engagements. 
-                                Fast response time. Professional communication. Delivering results that exceed expectations.
-                            </p>
-
-                            <div className="grid md:grid-cols-3 gap-8 mb-20">
-                                <a
-                                    href="https://wa.me/254704579936?text=Hi%20Daniel,%20I%20want%20to%20hire%20you"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="code-border p-8 vintage-shadow hover:glow-bronze transition-all duration-500 group"
+                            <div className="bg-[#1a1410] border border-[#C9A050]/20 rounded-xl p-8">
+                                <h3 className="text-xl font-bold text-[#C9A050] mb-6">Quick Contact Form</h3>
+                                <form 
+                                    action="https://formsubmit.co/lepatidan5@gmail.com" 
+                                    method="POST"
+                                    className="space-y-4"
                                 >
-                                    <div className="text-[#C9A050] mb-4 flex justify-center group-hover:scale-110 transition-all duration-500">
-                                        <WhatsApp />
+                                    <input type="hidden" name="_subject" value="New Portfolio Contact!" />
+                                    <input type="hidden" name="_captcha" value="false" />
+                                    <input type="hidden" name="_template" value="table" />
+                                    
+                                    <div>
+                                        <label className="text-gray-400 text-sm mb-2 block">Your Name *</label>
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            required
+                                            className="w-full px-4 py-3 bg-[#0a0807] border border-[#C9A050]/20 rounded-lg text-white focus:border-[#C9A050] outline-none transition-colors"
+                                            placeholder="John Doe"
+                                        />
                                     </div>
-                                    <div className="font-mono text-xs tracking-widest text-[#8B6914] mb-2">WHATSAPP</div>
-                                    <span className="text-[#C9A050] font-mono text-sm">Chat Instantly</span>
-                                </a>
-
-                                <a
-                                    href="mailto:lepatidan5@gmail.com?subject=Project%20Inquiry&body=Hi%20Daniel,%0A%0AI'm%20interested%20in%20hiring%20you%20for:%0A%0AProject%20Type:%0ABudget:%0ATimeline:%0A%0APlease%20get%20back%20to%20me."
-                                    className="code-border p-8 vintage-shadow hover:glow-bronze transition-all duration-500 group"
-                                >
-                                    <div className="text-[#C9A050] mb-4 flex justify-center group-hover:scale-110 transition-all duration-500">
-                                        <Mail />
+                                    <div>
+                                        <label className="text-gray-400 text-sm mb-2 block">Your Email *</label>
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            required
+                                            className="w-full px-4 py-3 bg-[#0a0807] border border-[#C9A050]/20 rounded-lg text-white focus:border-[#C9A050] outline-none transition-colors"
+                                            placeholder="john@example.com"
+                                        />
                                     </div>
-                                    <div className="font-mono text-xs tracking-widest text-[#8B6914] mb-2">EMAIL</div>
-                                    <span className="text-[#C9A050] font-mono text-sm break-all">lepatidan5@gmail.com</span>
-                                </a>
-
-                                <a
-                                    href="https://github.com/Daniel-code-byte"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="code-border p-8 vintage-shadow hover:glow-bronze transition-all duration-500 group"
-                                >
-                                    <div className="text-[#C9A050] mb-4 flex justify-center group-hover:scale-110 transition-all duration-500">
-                                        <Github />
+                                    <div>
+                                        <label className="text-gray-400 text-sm mb-2 block">Phone (Optional)</label>
+                                        <input
+                                            type="tel"
+                                            name="phone"
+                                            className="w-full px-4 py-3 bg-[#0a0807] border border-[#C9A050]/20 rounded-lg text-white focus:border-[#C9A050] outline-none transition-colors"
+                                            placeholder="+254 700 000 000"
+                                        />
                                     </div>
-                                    <div className="font-mono text-xs tracking-widest text-[#8B6914] mb-2">GITHUB</div>
-                                    <span className="text-[#C9A050] font-mono text-sm">Daniel-code-byte</span>
-                                </a>
-                            </div>
-
-                            <div className="flex flex-wrap justify-center gap-6 mb-20">
-                                <a
-                                    href="https://wa.me/254704579936?text=Hi%20Daniel,%20I%20have%20a%20project%20I'd%20like%20to%20discuss"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="px-12 py-5 hire-button pulse-hire bg-[#C9A050] text-[#0a0807] font-mono text-sm tracking-widest font-bold"
-                                >
-                                    <span>💬 WHATSAPP ME NOW</span>
-                                </a>
-                                <a
-                                    href="mailto:lepatidan5@gmail.com?subject=Full-Time%20Hiring%20Inquiry&body=Hi%20Daniel,%0A%0AI'm%20interested%20in%20hiring%20you%20full-time.%0A%0ACompany:%0APosition:%0ASalary%20Range:%0AStart%20Date:%0A%0ALooking%20forward%20to%20hearing%20from%20you."
-                                    className="px-12 py-5 code-border font-mono text-sm tracking-widest hover:glow-bronze transition-all duration-500 vintage-shadow"
-                                >
-                                    💼 HIRE FULL-TIME
-                                </a>
-                                <a
-                                    href="mailto:lepatidan5@gmail.com?subject=Freelance%20Project%20Inquiry&body=Hi%20Daniel,%0A%0AI%20have%20a%20freelance%20project:%0A%0AProject%20Description:%0ABudget:%0ADeadline:%0A%0APlease%20let%20me%20know%20your%20availability."
-                                    className="px-12 py-5 border-2 border-[#C9A050] font-mono text-sm tracking-widest hover:bg-[#C9A050]/10 transition-all duration-500 text-[#C9A050]"
-                                >
-                                    📋 FREELANCE PROJECT
-                                </a>
-                            </div>
-
-                            <div className="code-border p-10 vintage-shadow mb-12">
-                                <h3 className="text-xl font-bold serif text-[#C9A050] mb-6">What You Get</h3>
-                                <div className="grid md:grid-cols-2 gap-4 text-left">
-                                    {[
-                                        "✓ Response within 24 hours",
-                                        "✓ Free initial consultation",
-                                        "✓ Detailed project proposal",
-                                        "✓ Transparent pricing",
-                                        "✓ Regular progress updates",
-                                        "✓ Clean, documented code",
-                                        "✓ Post-launch support",
-                                        "✓ Money-back guarantee"
-                                    ].map((item, idx) => (
-                                        <div key={idx} className="font-mono text-sm text-[#8B6914] flex items-center gap-2">
-                                            <span className="text-[#C9A050]">•</span> {item}
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div className="code-border p-8 vintage-shadow">
-                                <div className="font-mono text-xs tracking-widest text-[#8B6914] space-y-2">
-                                    <div className="text-[#C9A050] text-lg mb-4">💡 CURRENTLY ACCEPTING NEW PROJECTS</div>
-                                    <div>⚡ FAST TURNAROUND • ENTERPRISE QUALITY</div>
-                                    <div>🌍 REMOTE WORK • FLEXIBLE HOURS</div>
-                                    <div>💰 COMPETITIVE RATES • PAYMENT PLANS AVAILABLE</div>
-                                    <div className="mt-6 pt-6 border-t border-[#8B6914]">
-                                        <div className="text-[#C9A050] font-bold">AVAILABILITY STATUS</div>
-                                        <div className="flex items-center justify-center gap-3 mt-3">
-                                            <span className="inline-block w-3 h-3 bg-[#C9A050] rounded-full animate-pulse"></span>
-                                            <span className="text-[#C9A050]">ONLINE & READY TO START</span>
-                                        </div>
+                                    <div>
+                                        <label className="text-gray-400 text-sm mb-2 block">Project Budget</label>
+                                        <select
+                                            name="budget"
+                                            className="w-full px-4 py-3 bg-[#0a0807] border border-[#C9A050]/20 rounded-lg text-white focus:border-[#C9A050] outline-none transition-colors"
+                                        >
+                                            <option value="">Select budget range</option>
+                                            <option value="$500-$1000">$500 - $1,000</option>
+                                            <option value="$1000-$5000">$1,000 - $5,000</option>
+                                            <option value="$5000-$10000">$5,000 - $10,000</option>
+                                            <option value="$10000+">$10,000+</option>
+                                        </select>
                                     </div>
-                                </div>
+                                    <div>
+                                        <label className="text-gray-400 text-sm mb-2 block">Project Details *</label>
+                                        <textarea
+                                            name="message"
+                                            required
+                                            rows="4"
+                                            className="w-full px-4 py-3 bg-[#0a0807] border border-[#C9A050]/20 rounded-lg text-white focus:border-[#C9A050] outline-none transition-colors resize-none"
+                                            placeholder="Tell me about your project..."
+                                        ></textarea>
+                                    </div>
+                                    <button
+                                        type="submit"
+                                        className="w-full px-6 py-3 bg-[#C9A050] text-[#0a0807] font-bold rounded-lg hover:bg-[#FFD700] transition-all"
+                                    >
+                                        📧 Send Message
+                                    </button>
+                                    <p className="text-xs text-gray-500 text-center">
+                                        Message goes directly to lepatidan5@gmail.com
+                                    </p>
+                                </form>
                             </div>
                         </div>
-                    </section>
 
-                    {/* Testimonials/Social Proof */}
-                    <section className="py-20 px-4 relative" style={{ zIndex: 10 }}>
-                        <div className="max-w-6xl mx-auto">
-                            <h3 className="text-3xl md:text-4xl font-bold text-center mb-12 serif text-[#C9A050]">
-                                Trusted By Businesses Worldwide
-                            </h3>
-                            
-                            <div className="grid md:grid-cols-3 gap-6 mb-12">
-                                <div className="code-border p-8 vintage-shadow hover:glow-bronze transition-all duration-500">
-                                    <div className="text-4xl font-bold serif text-[#C9A050] mb-2">50+</div>
-                                    <div className="text-sm font-mono text-[#8B6914]">Projects Delivered</div>
-                                </div>
-                                <div className="code-border p-8 vintage-shadow hover:glow-bronze transition-all duration-500">
-                                    <div className="text-4xl font-bold serif text-[#C9A050] mb-2">10M+</div>
-                                    <div className="text-sm font-mono text-[#8B6914]">Users Served</div>
-                                </div>
-                                <div className="code-border p-8 vintage-shadow hover:glow-bronze transition-all duration-500">
-                                    <div className="text-4xl font-bold serif text-[#C9A050] mb-2">5 Years</div>
-                                    <div className="text-sm font-mono text-[#8B6914]">Experience</div>
-                                </div>
-                            </div>
-
-                            <div className="grid md:grid-cols-3 gap-6">
-                                <a
-                                    href="https://github.com/Daniel-code-byte"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="code-border p-6 vintage-shadow hover:glow-bronze transition-all duration-500 text-center group"
-                                >
-                                    <div className="text-[#C9A050] mb-3 flex justify-center group-hover:scale-110 transition-all">
-                                        <Github />
+                        <div className="bg-[#1a1410] border border-[#C9A050]/20 rounded-xl p-8 text-center">
+                            <h3 className="text-2xl font-bold text-[#C9A050] mb-6">Why Work With Me?</h3>
+                            <div className="grid md:grid-cols-4 gap-6">
+                                {[
+                                    { icon: "⚡", title: "Fast Delivery", desc: "Quick turnaround" },
+                                    { icon: "💎", title: "Quality Code", desc: "Clean & maintainable" },
+                                    { icon: "💬", title: "24/7 Support", desc: "Always available" },
+                                    { icon: "✅", title: "Guaranteed", desc: "100% satisfaction" }
+                                ].map((item, idx) => (
+                                    <div key={idx}>
+                                        <div className="text-3xl mb-2">{item.icon}</div>
+                                        <div className="text-white font-semibold mb-1">{item.title}</div>
+                                        <div className="text-gray-400 text-sm">{item.desc}</div>
                                     </div>
-                                    <div className="font-mono text-xs tracking-widest text-[#8B6914] group-hover:text-[#C9A050] transition-colors">
-                                        VIEW CODE SAMPLES
-                                    </div>
-                                </a>
-
-                                <a
-                                    href="https://linkedin.com"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="code-border p-6 vintage-shadow hover:glow-bronze transition-all duration-500 text-center group"
-                                >
-                                    <div className="text-[#C9A050] mb-3 flex justify-center text-2xl font-bold group-hover:scale-110 transition-all">
-                                        in
-                                    </div>
-                                    <div className="font-mono text-xs tracking-widest text-[#8B6914] group-hover:text-[#C9A050] transition-colors">
-                                        PROFESSIONAL NETWORK
-                                    </div>
-                                </a>
-
-                                <a
-                                    href="https://stackoverflow.com"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="code-border p-6 vintage-shadow hover:glow-bronze transition-all duration-500 text-center group"
-                                >
-                                    <div className="text-[#C9A050] mb-3 flex justify-center text-2xl font-bold group-hover:scale-110 transition-all">
-                                        SO
-                                    </div>
-                                    <div className="font-mono text-xs tracking-widest text-[#8B6914] group-hover:text-[#C9A050] transition-colors">
-                                        COMMUNITY CONTRIBUTIONS
-                                    </div>
-                                </a>
+                                ))}
                             </div>
                         </div>
-                    </section>
+                    </div>
+                </div>
+            );
+
+            return (
+                <div className="bg-[#0a0807] min-h-screen text-white">
+                    <canvas ref={canvasRef} className="matrix-bg opacity-20" />
+                    <NavBar />
+                    
+                    {currentPage === 'home' && <HomePage />}
+                    {currentPage === 'about' && <AboutPage />}
+                    {currentPage === 'services' && <ServicesPage />}
+                    {currentPage === 'projects' && <ProjectsPage />}
+                    {currentPage === 'contact' && <ContactPage />}
 
                     {/* Footer */}
-                    <footer className="py-12 px-4 border-t border-[#6B4E1F] text-center relative" style={{ zIndex: 10 }}>
-                        <div className="font-mono text-xs text-[#8B6914] tracking-widest space-y-3">
-                            <p className="text-[#C9A050] font-bold">© 2025 DANIEL LEPATI • ELITE SOFTWARE ARCHITECT</p>
-                            <p className="text-[#8B6914]/70">CRAFTING EXCELLENCE • DELIVERING RESULTS</p>
-                            <div className="flex justify-center gap-6 mt-6">
-                                <a href="https://wa.me/254704579936" target="_blank" rel="noopener noreferrer" className="text-[#8B6914] hover:text-[#C9A050] transition-colors">
-                                    WHATSAPP
-                                </a>
-                                <span className="text-[#8B6914]">•</span>
-                                <a href="mailto:lepatidan5@gmail.com" className="text-[#8B6914] hover:text-[#C9A050] transition-colors">
-                                    EMAIL
-                                </a>
-                                <span className="text-[#8B6914]">•</span>
-                                <a href="https://github.com/Daniel-code-byte" target="_blank" rel="noopener noreferrer" className="text-[#8B6914] hover:text-[#C9A050] transition-colors">
-                                    GITHUB
-                                </a>
+                    <footer className="py-12 px-4 border-t border-[#C9A050]/20">
+                        <div className="max-w-7xl mx-auto">
+                                <div className="grid md:grid-cols-4 gap-8 mb-8">
+                                <div>
+                                    <h3 className="text-2xl font-bold serif text-[#C9A050] mb-4">Daniel Lepati</h3>
+                                    <p className="text-gray-400 text-sm">Elite Software Architect crafting digital excellence.</p>
+                                </div>
+                                <div>
+                                    <h4 className="text-[#C9A050] font-semibold mb-4">Quick Links</h4>
+                                    <div className="space-y-2">
+                                        {['Home', 'About', 'Services', 'Projects', 'Contact'].map(page => (
+                                            <button
+                                                key={page}
+                                                onClick={() => setCurrentPage(page.toLowerCase())}
+                                                className="block text-gray-400 hover:text-[#C9A050] transition-colors text-sm"
+                                            >
+                                                {page}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 className="text-[#C9A050] font-semibold mb-4">Services</h4>
+                                    <div className="space-y-2 text-sm text-gray-400">
+                                        <div>Web Development</div>
+                                        <div>Mobile Apps</div>
+                                        <div>Backend & APIs</div>
+                                        <div>Cloud & DevOps</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 className="text-[#C9A050] font-semibold mb-4">Connect</h4>
+                                    <div className="flex gap-4">
+                                        <a href="https://github.com/Daniel-code-byte" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-[#C9A050] transition-colors">
+                                            <Github />
+                                        </a>
+                                        <a href="https://wa.me/254704579936" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-[#C9A050] transition-colors">
+                                            <WhatsApp />
+                                        </a>
+                                        <a href="mailto:lepatidan5@gmail.com" className="text-gray-400 hover:text-[#C9A050] transition-colors">
+                                            <Mail />
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="mt-8 pt-6 border-t border-[#6B4E1F]">
-                                <div className="flex items-center justify-center gap-3">
-                                    <span className="inline-block w-2 h-2 bg-[#C9A050] rounded-full animate-pulse"></span>
-                                    <span className="text-[#C9A050]">SYSTEM OPERATIONAL • READY TO BUILD</span>
+                            <div className="pt-8 border-t border-[#C9A050]/20 flex flex-col md:flex-row justify-between items-center">
+                                <div className="text-gray-400 text-sm">© 2025 Daniel Lepati. All rights reserved.</div>
+                                <div className="flex items-center gap-2 text-sm text-gray-400 mt-4 md:mt-0">
+                                    <span className="w-2 h-2 bg-[#C9A050] rounded-full animate-pulse"></span>
+                                    Available for new projects
                                 </div>
                             </div>
                         </div>
